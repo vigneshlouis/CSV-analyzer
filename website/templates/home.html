@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSV  Analyzer </title>
+
+            <meta name="viewport" content="width=device-width initial-scale=1.0">
+          <!--  <link rel="stylesheet" href="style.css">-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+        
+
+    </head>
+
+    <body>
+        <!--    static navbar    -->
+        <div id="bgimg" style="background-image: url('website/static/images/bg1.webp');
+
+    background-size: cover;image-height:100%;">
+
+        <div class="navbar" style=" height: 15vh;
+
+
+    width: 100%;" >
+           
+            <ul class="nav-content">
+                <li style="width:100px;border:1px solid;height:80%;border-radius: 30px;margin-left:20px;">
+                  <a href="/home"> <img  src="{{url_for('static', filename='images/images.png')}}" alt="piic"
+                                         style="width:100%;height: 100%;border-radius: 30px;"></a>
+              </li>
+
+
+                <li >
+                    <a  class="contents" href="/home"style="position:absolute;left:250px;bottom:20px;">Home</a>
+                    
+                </li>
+
+                <li>
+                    <a  class="contents" href="/predict"style="position:absolute;left:350px;bottom:20px;">Prediction & Classification</a>
+                </li>
+
+
+
+            </ul>
+
+
+        </div>
+
+
+        <!-- upload button-->
+
+        
+        <div class="file-upload">
+        
+       <div id="upload-txt">
+
+        <h1>upload file</h1>
+        
+       </div>
+            <form method="POST" enctype="multipart/form-data" action="/gettingfile">
+       <div id="up-ip">
+        
+        <input class="filein" name="file"  type="file" accept="text/csv"id="fileinput" required>
+
+
+        
+        <!--submit btn-->
+       </div>
+       <div class="submit-div">
+          <button class="submitbtn" name="submit" type="submit" id="subbtn" >Submit File to Analyze</button>
+       </div>
+            </form>
+
+       </div>
+
+
+{% with messages=get_flashed_messages(with_categories=true)%}
+            {% if messages%}
+            {% for category,message in messages%}
+            {%if category=='success'%}
+      <div class="msg"style="color:black;background-color:green;margin-top:10px;margin-left:35%"id="error">
+          {{ message }}
+          <span class="close-button" onclick="closeError()"
+                style="cursor:pointer right: 10px;float:right;display:inline-block;line-height:1;width:50px;height:50px;
+    font-size: 30px;">&times;</span></div>
+          {% else%}
+           <div class="msg" style="color:black;background-color:red;margin-top:10px;margin-left:35%"id="error1">{{ message }}<span class="close-button" onclick="closeError1()"style="cursor:pointer; right: 10px;float:right;font-size:50px;
+    font-size: 20px;">&times;</span> </div>
+               {%endif%}
+
+{% endfor %}
+          {% endif %}
+          {% endwith %}
+
+
+
+
+</div>
+
+
+       <div class="options" style="position:-webkit-sticky;
+   position: sticky;
+   top: 0;">
+
+         <form method="POST" action="/histogram">
+        <button class="optbtn" id="optbtn2" style="background-color:darkolivergreen;">Histogram</button>
+               </form>
+            <form method="POST" action="/boxplot">
+        <button class="optbtn" id="optbtn3"style="background-color:darkolivergreen;">Box Plot</button>
+               </form>
+            <form method="POST" action="/scatterplot">
+        <button class="optbtn" id="optbtn4"style="background-color:darkolivergreen;">Scatter Plot</button>
+               </form>
+            <form method="POST" action="/heatmap">
+        <button class="optbtn" id="optbtn5"style="background-color:darkolivergreen;">HeatMap</button>
+               </form>
+            <form method="POST" action="/barplot">
+        <button class="optbtn" id="optbtn6"style="background-color:darkolivergreen;">Bar PLot</button>
+               </form>
+            <form method="POST" action="/pairplot">
+        <button class="optbtn" id="optbtn7"style="background-color:darkolivergreen;">Pair Plot</button>
+               </form>
+            <form method="POST" action="/lineplot">
+        <button class="optbtn" id="optbtn1"style="background-color:darkolivergreen;">Lineplot</button>
+               </form> 
+            <form method="POST" action="/piechart">
+        <button class="optbtn" id="optbtn8"style="background-color:darkolivergreen;">Pie chart</button>
+               </form>
+            <form method="POST" action="/regrplot">
+        <button class="optbtn" id="optbtn9"style="background-color:darkolivergreen;">Regression plot</button>
+               </form>
+            <form method="POST" action="/surface3d">
+        <button class="optbtn" id="optbtn10"style="background-color:darkolivergreen;">3D Surface Plot</button>
+               </form>
+            <form method="POST" action="/contour3d">
+        <button class="optbtn" id="optbtn11"style="background-color:darkolivergreen;">3D Contour Plot</button>
+               </form>
+            <form method="POST" action="/bar3d">
+        <button class="optbtn" id="optbtn12"style="background-color:darkolivergreen;">3D Bar Plot</button>
+               </form>
+            <form method="POST" action="/regrplot">
+        <button class="optbtn" id="optbtn13"style="background-color:darkolivergreen;">3D Streamline Plot</button>
+               </form>
+            <form method="POST" action="/ribbon3d">
+        <button class="optbtn" id="optbtn14"style="background-color:darkolivergreen;">3D Ribbon Plot</button>
+               </form>
+            <form method="POST" action="/bubble3d">
+        <button class="optbtn" id="optbtn15"style="background-color:darkolivergreen;">3D Bubble Chart</button>
+               </form>
+            <form method="POST" action="/violinplot">
+        <button class="optbtn" id="optbtn16"style="background-color:darkolivergreen;">violin plot</button>
+               </form>
+            <form method="POST" action="/line3d">
+        <button class="optbtn" id="optbtn17"style="background-color:darkolivergreen;">3D Line Plot</button>
+               </form>
+            <form method="POST" action="/scatter3d">
+        <button class="optbtn" id="optbtn18"style="background-color:darkolivergreen;">3D Scatter Plot</button>
+               </form>
+        
+
+    </div>
+
+     </div>
+{%if insights1%}
+        <div width="100vh"style="overflow:scroll;margin-top:5px;"id="tablediv">
+            <table border="solid 2px black" id="table1">
+
+                <tr><th>insights</th>
+                     {% for i in heads1%}
+                      <th>{{i}}</th>
+                    {%endfor%}
+                    </tr>
+                <tr><th>mean</th>
+                    {% for i in mean%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+                 <tr><th>median</th>
+                    {% for i in median%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>min value</th>
+                    {% for i in min_value%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>max value</th>
+                    {% for i in max_value%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>count</th>
+                    {% for i in count%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>75th percentile</th>
+                    {% for i in percentile_75%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>25th percentile</th>
+                    {% for i in percentile_25%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>standard deviation</th>
+                    {% for i in std%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+
+
+            </table>
+        </div>
+        {%endif%}
+    <div class="bg2" >
+
+
+    <div class="frame-div" style="margin-top:20px;background-image:url('website/static/images/75376995-bokeh-lights-background.jpg');background-size:cover;
+">
+
+       <div><iframe  src="data:image/png;base64,{{plot_data}}"  frameborder="0" allowfullscreen="true" width="100%" height="100%"></iframe> </div>
+      <div id="details"  >
+
+
+
+            {%if heads%}
+          {% if gf=='gf'%}
+           <h1>These are your columns
+           (numeric)</h1>
+           {%for head in gt%}
+                    <li> {{head}}</li>
+                {%endfor%}
+          {%endif%}
+          {%else%}
+          <h1>there is no columns in your dataset</h1>
+
+
+          {%endif%}
+
+            <div>
+
+
+
+
+                {%if plttype == 'histogram' %}
+                 <h1>Select columns to make {{plt_type}}</h1>
+
+                <form method="POST" action="/histogram">
+                    {%for head in num%}
+            <li>    <label><input type="checkbox"  id="check1" name="check_box" value="{{head}}">{{head}}</label></li>
+
+                    {%endfor%}
+                    <button >make plot</button>
+                </form>
+
+                {%elif plttype == 'lineplot' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/lineplot">
+                    {%for head in num%}
+               <li> <label><input type="checkbox"  id="check2"name="check_box"value="{{head}}">{{head}}</label></li>
+                    {%endfor%}<button >make plot</button>
+                </form>
+
+                {%elif plttype == 'scatterplot' %}
+<h1>Select columns to make {{plt_type}}</h1>
+                <form method="POST" action="/scatterplot">
+                    {%for head in num%}
+               <li><label><input type="checkbox"  id="check_box"name="check_box"value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+                {%elif plttype == 'boxplot' %}
+ <h1>These are your columns</h1>
+                <form method="post" action="/boxplot">
+                    {%for head in headss%}
+                    <li> {{head}}</li>
+                {%endfor%}
+                    </form>
+
+
+                {%elif plttype == 'barplot' %}
+ <h1>Select numeric columns to make {{plt_type}}</h1>
+                <form method="post" action="/barplot">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check5"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+                {%elif plttype == 'heatmap' %}
+ <h1>These are your columns</h1>
+                <form method="post" action="/heatmap">
+                    {%for head in headss%}
+                    <li>{{head}}</li>
+                {%endfor%}
+
+                    </form>
+
+                {%elif plttype == 'pairplot' %}
+ <h1>These are your columns</h1>
+                <form method="post" action="/pairplot">
+                    {%for head in headss%}
+                    <li>  {{head}}</li>
+                {%endfor%}
+
+
+                    </form>
+
+                {%elif plttype == 'piechart' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/piechart">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check8"name="check_box"value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                 {%elif plttype == 'regrplot' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/regrplot">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check9"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                 {%elif plttype == 'violinplot' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/violinplot">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check10"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                  {%elif plttype == 'line3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/line3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check11"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                {%elif plttype == 'surface3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/surface3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check12"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                {%elif plttype == 'bubble3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/bubble3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check13"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+                {%elif plttype == 'scatter3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/scatter3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check14"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+                 {%elif plttype == 'contour3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/contour3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check15"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+                 {%elif plttype == 'ribbon3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/ribbon3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check16"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+                 {%elif plttype == 'bar3d' %}
+ <h1>Select columns to make {{plt_type}}</h1>
+                <form method="post" action="/bar3d">
+                    {%for head in num%}
+                    <li>  <label><input type="checkbox"  id="check17"name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}<button >make plot</button>
+                    </form>
+
+
+                {%else%}
+               {%for head in headss%}
+                    <li> {{head}}</li>
+                {%endfor%}
+                {%endif%}
+
+
+
+
+            </div>
+
+
+
+      </div>
+        <div id="num-col">
+{%if non_num1%}
+            <h1 style="text-align:center;border-radius:10px;color:orange;font-size:20px;margin-left:4px;background-color:dimgray;height:50px;padding:5px;overflow:hidden;line-height:30px;">non-numeric columns</h1>
+             {% if gf=='gf'%}
+
+           {%for head in non_num1%}
+                    <li> {{head}}</li>
+                {%endfor%}
+          {%endif%}
+
+             {%if pltt_type == 'barplot' %}
+            <form method="post" action="/barplot">
+                    {%for head in non_num%}
+             <li>  <label><input type="checkbox" name="check_box" value="{{head}}">{{head}}</label></li>
+                {%endfor%}
+
+                <button>submit</button>
+                 </form>
+
+
+            {%elif pltt_type == 'piechart'%}
+                 <form method="post" action="/piechart">
+                    {%for head in non_num%}
+                      <li>  <label><input type="checkbox" name="check_box" value="{{head}}">{{head}}</label></li>
+                     {%endfor%}
+                     <button>submit</button>
+
+            {%elif   pltt_type =='histogram'%}
+                      <form method="post" action="/histogram">
+                     {%for head in non_num%}
+             <li>  <label><input type="checkbox" name="check_box" value="{{head}}">{{head}}</label></li>
+                     {%endfor%}
+                     <button>make plot</button>
+                     </form>
+
+            {%else%}
+            {%for head in non_num%}
+                    <li>  {{head}}</li>
+                     {%endfor%}
+
+
+
+             {%endif%}
+                     {%endif%}
+
+                   </div>
+
+
+
+        
+    </div>
+</div>
+
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+       function closeError() {
+    var errorMessage = document.getElementById('error');
+
+    errorMessage.style.display = 'none';
+    }
+
+function closeError1() {
+ var errorMessage1 = document.getElementById('error1');
+   errorMessage1.style.display = 'none';
+}
+
+/*function show(){
+var file=document.getElementById('fileinput');
+var table1=document.getElementById("table1");
+var x=0;
+if(file.value){
+var x=1;
+
+}
+if(x==1){
+table1.style.display="block";}*/
+    </script>
+</body>
+</html>

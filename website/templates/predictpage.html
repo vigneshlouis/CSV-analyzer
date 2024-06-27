@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSV  Analyzer </title>
+
+            <meta name="viewport" content="width=device-width initial-scale=1.0">
+          <!--  <link rel="stylesheet" href="style.css">-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+        
+
+    </head>
+
+    <body>
+        <!--    static navbar    -->
+        <div id="bgimg" style="background-image: url('website/static/images/bg1.webp');
+
+    background-size: cover;image-height:100%;">
+
+        <div class="navbar" style=" height: 15vh;
+
+
+    width: 100%;" >
+           
+            <ul class="nav-content">
+                <li style="width:100px;border:solid;height:80%;border-radius: 30px;">
+                  <a href="/home"> <img  src="{{url_for('static', filename='images/images.png')}}" alt="piic" style="width:100%;height: 100%;border-radius: 30px;"></a>
+               </li>
+                <li>
+                    <a  class="contents" href="/home">Home</a>
+                    
+                </li>
+
+                <li>
+                    <a  class="contents" href="/home">visualize</a>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <!-- upload button-->
+
+        
+        <div class="file-upload">
+        
+       <div id="upload-txt">
+
+        <h1>upload file</h1>
+        
+       </div>
+            <form method="POST" enctype="multipart/form-data" action="/getfile">
+       <div id="up-ip">
+        
+        <input class="filein" name="file"  type="file" accept="text/csv" required>
+
+
+        
+        <!--submit btn-->
+       </div>
+       <div class="submit-div">
+          <button class="submitbtn" name="submit" type="submit" id="subbtn" >Submit File to Analyze</button>
+       </div>
+            </form>
+
+       </div>
+ {% with messages=get_flashed_messages(with_categories=true)%}
+            {% if messages%}
+            {% for category,message in messages%}
+            {%if category=='success'%}
+      <div class="msg"style="color:black;background-color:green;margin-top:10px;margin-left:35%;opacity:0.7;"id="error">
+          {{ message }}
+          <span class="close-button" onclick="closeError()"
+                style="cursor:pointer right: 10px;float:right;display:inline-block;line-height:1;width:50px;height:50px;
+    font-size: 30px;">&times;</span></div>
+          {% else%}
+           <div class="msg" style="color:black;background-color:red;margin-top:10px;margin-left:35%;opacity:0.7;"id="error1">{{ message }}<span class="close-button" onclick="closeError1()"style="cursor:pointer; right: 10px;float:right;font-size:50px;
+    font-size: 20px;">&times;</span> </div>
+               {%endif%}
+
+{% endfor %}
+          {% endif %}
+          {% endwith %}
+
+
+
+
+</div>
+
+
+       <div class="options" style="position:-webkit-sticky;
+   position: sticky;
+   top: 0;">
+
+         <form method="POST" action="/linearreg">
+        <button class="optbtn" id="optbtn2" style="background-color:darkolivergreen;">Linear Regression</button>
+               </form>
+            <form method="POST" action="/logisticregui">
+        <button class="optbtn" id="optbtn3"style="background-color:darkolivergreen;">Logistic Regression</button>
+               </form>
+            <form method="POST" action="/randomforestui">
+        <button class="optbtn" id="optbtn4"style="background-color:darkolivergreen;">Random Forest</button>
+               </form>
+            <form method="POST" action="/svm">
+        <button class="optbtn" id="optbtn5"style="background-color:darkolivergreen;">Support Vector Machines (SVM)</button>
+               </form>
+            <form method="POST" action="/knn">
+        <button class="optbtn" id="optbtn6"style="background-color:darkolivergreen;">K-Nearest Neighbors (KNN)</button>
+               </form>
+            <form method="POST" action="/naive">
+        <button class="optbtn" id="optbtn7"style="background-color:darkolivergreen;">Naive Bayes</button>
+               </form>
+            <form method="POST" action="/decisionui">
+        <button class="optbtn" id="optbtn1"style="background-color:darkolivergreen;">Decision Trees</button>
+               </form>
+            <form method="POST" action="/kmean">
+        <button class="optbtn" id="optbtn8"style="background-color:darkolivergreen;">K-Means Clustering</button>
+            </form>
+
+
+    </div>
+
+     </div>
+
+        <div width="100vh"style="overflow:scroll;margin-top:5px;"id="tablediv">
+            <table border="solid 2px black" id="table1">
+
+                <tr><th>insights</th>
+                     {% for i in heads1%}
+                      <th>{{i}}</th>
+                    {%endfor%}
+                    </tr>
+                <tr><th>mean</th>
+                    {% for i in mean%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+                 <tr><th>median</th>
+                    {% for i in median%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>min value</th>
+                    {% for i in min_value%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>max value</th>
+                    {% for i in max_value%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>count</th>
+                    {% for i in count%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>75th percentile</th>
+                    {% for i in percentile_75%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>25th percentile</th>
+                    {% for i in percentile_25%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+ <tr><th>standard deviation</th>
+                    {% for i in std%}
+                    <td>{{i}}</td>
+                    {%endfor%}
+
+                </tr>
+
+
+            </table>
+        </div>
+
+
+
+        <div class="predictoppart"style=" border:soliid 2px brown;width=100%;height:500px;">
+            {%if heads%}
+            {%if models=='logic'%}
+
+            <div><center><h1>these are your columns</h1></center></div>
+            <div>
+                <form method="post" action="/logisticregop">
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                        <h1>numeric columns</h1>
+                        <h1>non numeric columns</h1>
+                    </div>
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+              <div style="text-align:left;">
+                        {%if num_col%}
+                        {%for head in num_col%}
+                       <label><input name="target"type="radio" value="{{head}}" required>{{head}}</label> <br>
+                        {%endfor%}
+                       {%endif%}
+                    </div>
+                        <div style="text-align:left;">
+                            {%if non_num%}
+                            {%for head in non_num%}
+                         <label ><input name="target" type="radio" value="{{head}}" >{{head}}</label> <br>
+                            {%endfor%}
+                            {%endif%}
+
+                        </div> </div>
+                    <div style="display:grid;
+grid-template-columns:1fr;text-align:center;">
+                    <div style="margin-top:40px;color:#FFEEF4;font-size:20px;">
+                     <label for="input1" >paste your data to predict a value</label> <input type="text"name="input1" required>
+                    </div>
+
+                    <div> <button type="submit">predict</button></div>
+                    </div>
+
+
+                </form>
+
+                </div>
+
+{%if prediction%}
+        <div height="400px" style="margin:50px;">
+            <table border="solid"width="100%"height="100px"
+                   style="text-align:center;border-collapse:collapse;
+                   font-size:30px;
+">
+                <tr>
+            <th>predicted value</th>
+                <td style="font-size:40px;color:blue;">{{prediction[0]}}</td>
+                </tr>
+         <tr>
+             <th> test data accuracy</th>
+             <td >    {{test_accuracy}}</td>
+         </tr>
+       <tr>
+           <th>   train data accuracy</th>
+           <td>{{train_accuracy}}</td>
+       </tr>
+            </table>
+        </div>
+{%endif%}
+            {%elif models =='linear'%}
+
+            <div><center><h1>these are your columns</h1></center></div>
+            <div>
+                <form method="post" action="/linearop">
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                        <h1>numeric columns</h1>
+                        <h1>non numeric columns</h1>
+                    </div>
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                    <div style="text-align:left;">
+                        {%if num_col%}
+                        {%for head in num_col%}
+                      <label><input name="target"type="radio" value="{{head}}">{{head}}</label> <br>
+                        {%endfor%}
+                       {%endif%}
+                    </div>
+                        <div style="text-align:left;">
+                            {%if non_num%}
+                            {%for head in non_num%}
+                         <label><input name="target" type="radio" value="{{head}}">{{head}}</label> <br>
+                            {%endfor%}
+                            {%endif%}
+
+                        </div></div>
+                    <div style="display:grid;
+grid-template-columns:1fr;text-align:center;">
+                    <div>
+                     <label for="input1">paste your input</label> <input type="text"name="input1">
+                    </div>
+
+                    <div> <button type="submit">predict</button></div>
+                    </div>
+
+
+                </form>
+
+                </div>
+
+{%if prediction%}
+               <div height="400px" style="margin:50px;">
+            <table border="solid"width="100%"height="100px"
+                   style="text-align:center;border-collapse:collapse;
+                   font-size:30px;
+">
+                <tr>
+            <th>predicted value</th>
+                    <td style="font-size:40px;color:blue;">{{prediction[0]}}</th>
+                </tr>
+
+
+            </table>
+        </div>{%endif%}
+                   {%elif models =='decision'%}
+
+            <div><center><h1>these are your columns</h1></center></div>
+            <div>
+                <form method="post" action="/decisiontree">
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                        <h1>numeric columns</h1>
+                        <h1>non numeric columns</h1>
+                    </div>
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                    <div style="text-align:left;">
+                        {%if num_col%}
+                        {%for head in num_col%}
+                  <label><input name="target"type="radio" value="{{head}}">{{head}}</label> <br>
+                        {%endfor%}
+                       {%endif%}
+                    </div>
+                        <div style="text-align:left;"></div></div>
+                    <div style="display:grid;
+grid-template-columns:1fr;text-align:center;">
+
+
+                    <div> <button type="submit">predict</button></div>
+                    </div>
+
+
+                </form>
+
+
+                </div>
+
+
+
+
+
+
+
+            {%elif models =='svm'%}
+
+            <div><center><h1>these are your columns</h1></center></div>
+            <div>
+                <form method="post" action="/svmop">
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                        <h1>numeric columns</h1>
+                        <h1>non numeric columns</h1>
+                    </div>
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                    <div style="text-align:left;">
+                        {%if num_col%}
+                        {%for head in num_col%}
+                 <label><input name="target"type="checkbox" value="{{head}}" >{{head}}</label> <br>
+                        {%endfor%}
+                       {%endif%}
+                    </div>
+                        <div style="text-align:left;">
+                            {%if non_num%}
+                            {%for head in non_num%}
+                       <label><input name="target" type="radio" value="{{head}}">{{head}}</label> <br>
+                            {%endfor%}
+                            {%endif%}
+
+                        </div></div>
+                    <div style="display:grid;
+grid-template-columns:1fr;text-align:center;">
+                    <div>
+                     <label for="input1">paste your input</label> <input type="text"name="input1">
+                    </div>
+
+                    <div> <button type="submit">predict</button></div>
+                    </div>
+
+
+                </form>
+
+
+                </div>
+            {%elif models=='rf'%}
+
+            <div><center><h1>select a target column</h1></center></div>
+            <div>
+                <form method="post" action="/rfop">
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                        <h1>numeric columns</h1>
+                        <h1>non numeric columns</h1>
+                    </div>
+                    <div style="display:grid;
+grid-template-columns:1fr 1fr;text-align:center;">
+                    <div style="text-align:left;">
+                        {%if num_col%}
+                        {%for head in num_col%}
+                        <label><input name="target"type="radio" value="{{head}}" required>{{head}}</label> <br>
+                        {%endfor%}
+                       {%endif%}
+                    </div>
+                        <div style="text-align:left;">
+                            {%if non_num%}
+                            {%for head in non_num%}
+                        <label><input name="target" type="radio" value="{{head}}" >{{head}}</label> <br>
+                            {%endfor%}
+                            {%endif%}
+
+                        </div></div>
+                    <div style="display:grid;
+grid-template-columns:1fr;text-align:center;">
+                    <div>
+                     <label for="input1">paste your input</label> <input type="text"name="input1" required>
+                    </div>
+
+                    <div> <button type="submit">predict</button></div>
+                    </div>
+
+
+                </form>
+
+                </div>
+
+{%if prediction%}
+               <div height="400px" style="margin:50px;">
+            <table border="solid"width="100%"height="100px"
+                   style="text-align:center;border-collapse:collapse;
+                   font-size:30px;
+">
+                <tr>
+            <th>predicted value</th>
+                <td style="font-size:40px;color:blue;">{{prediction[0]}}</td>
+                </tr>
+         <tr>
+             <th>  accuracy</th>
+             <td >    {{accuracy}}%</td>
+         </tr>
+
+            </table>
+        </div>
+{%endif%}
+
+
+
+
+
+
+            {%endif%}
+
+
+
+
+
+
+ {%endif%}
+
+    </div>
+              <div width="100vw"height="1000px" style="margin-top:220px;">
+                <iframe  src="data:image/png;base64,{{plot_data}}"  frameborder="0" allowfullscreen="true" width="100%" height="1500px"></iframe>
+            </div>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+       function closeError() {
+    var errorMessage = document.getElementById('error');
+
+    errorMessage.style.display = 'none';
+    }
+
+function closeError1() {
+ var errorMessage1 = document.getElementById('error1');
+   errorMessage1.style.display = 'none';
+}
+
+    </script>
+
+    </body>
+</html>
